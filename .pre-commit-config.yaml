@@ -1,0 +1,64 @@
+repos:
+  # 1) Markdown linting (markdownlint-cli2)
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.18.1
+    hooks:
+      - id: markdownlint-cli2
+        args: [--fix]
+
+  # 2) TOML lint/format with Taplo
+  - repo: https://github.com/ComPWA/taplo-pre-commit
+    rev: v0.9.3
+    hooks:
+      - id: taplo-format
+      - id: taplo-lint
+
+  # 3) YAML formatting and linting
+  - repo: https://github.com/google/yamlfmt
+    rev: v0.17.2
+    hooks:
+      - id: yamlfmt
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.37.1
+    hooks:
+      - id: yamllint
+        args: [--strict, -c=.yamllint.yaml]
+
+  # 4) Python linting and formatting pipeline
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.3
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+
+  # 5) Black for experimental string processing
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 25.1.0
+    hooks:
+      - id: black
+        language_version: python3.12
+
+  # 6) Type checking
+  - repo: https://github.com/RobertCraigie/pyright-python
+    rev: v1.1.403
+    hooks:
+      - id: pyright
+        # NOTE: does not support jupyter notebooks, contrary to vscode
+        # integration
+        pass_filenames: false
+
+  # 7) Test runner
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        # TODO remove --no-cov once coverage is stable
+        entry: ./urvc uv run pytest --no-cov
+        language: system
+        pass_filenames: false
+        always_run: true
+
+# Exclude the RVC directory from all hooks for now.
+exclude: ^src/ultimate_rvc/rvc/

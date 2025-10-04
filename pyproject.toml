@@ -86,6 +86,11 @@ rocm = [
   "torchaudio==2.6.0+rocm6.2.4 ; sys_platform == 'linux'",
   "pytorch-triton-rocm==3.2.0 ; sys_platform == 'linux'",
 ]
+# macOS optimization: PyTorch with MPS (Metal) support for Apple Silicon
+macos = [
+  "torch>=2.7.0 ; sys_platform == 'darwin'",
+  "torchaudio>=2.7.0 ; sys_platform == 'darwin'",
+]
 
 [project.scripts]
 urvc = "ultimate_rvc.cli.main:app"
